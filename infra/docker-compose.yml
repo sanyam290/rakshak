@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: ner_sentinel_postgres
+    environment:
+      POSTGRES_DB: ner_sentinel
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ner_sentinel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: ner_sentinel_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/ner_sentinel
+      - ML_ENGINE_URL=http://ml-engine:8001
+      - ENVIRONMENT=development
+    volumes:
+      - ../backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  ml-engine:
+    build:
+      context: ../ml-engine
+      dockerfile: Dockerfile
+    container_name: ner_sentinel_ml_engine
+    ports:
+      - "8001:8001"
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - ../ml-engine:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+
+  web-dashboard:
+    build:
+      context: ../web-dashboard
+      dockerfile: Dockerfile
+    container_name: ner_sentinel_web_dashboard
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000/ws/live
+    volumes:
+      - ../web-dashboard:/app
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

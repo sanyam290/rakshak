@@ -1,0 +1,37 @@
+# Python & Virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+env/
+
+# SQLite Databases & Logs
+*.db
+*.sqlite3
+*.log
+tunnel_url.txt
+cloudflared.exe
+
+# Node & Frontend dependencies
+node_modules/
+dist/
+build/
+.npm/
+*.log
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local environment overrides
+.env
+.env.local
