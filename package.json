@@ -1,0 +1,9 @@
+{
+  "name": "rakshak-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd web-dashboard && npm install && npm run build",
+    "install": "cd web-dashboard && npm install"
+  }
+}
