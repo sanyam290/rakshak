@@ -331,74 +331,78 @@ export default function App() {
     }
   };
 
+  const [mobileTab, setMobileTab] = useState<'map' | 'zones' | 'analytics'>('map');
+
   return (
-    <div className="flex flex-col h-screen w-screen bg-[#050811] text-slate-100 overflow-hidden font-sans bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-slate-950 to-black">
+    <div className="flex flex-col min-h-screen md:h-screen w-full bg-[#050811] text-slate-100 overflow-x-hidden overflow-y-auto md:overflow-hidden font-sans bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-slate-950 to-black">
       {/* Header Bar */}
-      <header className="h-12 shrink-0 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl px-3 flex items-center justify-between shadow-2xl z-20 overflow-x-auto">
-        <div className="flex items-center gap-2.5 shrink-0">
-          <div className="p-1.5 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 text-emerald-400 rounded-xl border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            <Shield size={18} />
-          </div>
-          <div>
-            <h1 className="font-bold text-xs tracking-wide text-slate-100 flex items-center gap-1.5 font-mono">
-              {t.appTitle}
-              <span className="inline-flex items-center gap-1 text-[8px] bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 px-2 py-0.5 rounded-full font-mono uppercase tracking-wider shadow-inner">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
-                Live GIS Radar
-              </span>
-            </h1>
-            <p className="text-[9px] text-slate-400 tracking-normal hidden sm:block">{t.subtitle}</p>
+      <header className="shrink-0 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl px-2 sm:px-3 py-2 sm:py-0 sm:h-12 flex flex-col sm:flex-row items-center justify-between shadow-2xl z-20 gap-2">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-start">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 text-emerald-400 rounded-xl border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+              <Shield size={18} />
+            </div>
+            <div>
+              <h1 className="font-bold text-xs tracking-wide text-slate-100 flex items-center gap-1.5 font-mono">
+                {t.appTitle}
+                <span className="inline-flex items-center gap-1 text-[8px] bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 px-2 py-0.5 rounded-full font-mono uppercase tracking-wider shadow-inner">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                  Live GIS Radar
+                </span>
+              </h1>
+              <p className="text-[9px] text-slate-400 tracking-normal hidden sm:block">{t.subtitle}</p>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs shrink-0">
+        <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 shrink-0">
           <button
             onClick={() => setShowAdminPanel(true)}
-            className="flex items-center gap-1 bg-gradient-to-r from-sky-950 to-indigo-950 hover:from-sky-900 hover:to-indigo-900 text-sky-200 border border-sky-600/80 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(14,165,233,0.2)] hover:scale-[1.02]"
+            className="flex items-center gap-1 bg-gradient-to-r from-sky-950 to-indigo-950 hover:from-sky-900 hover:to-indigo-900 text-sky-200 border border-sky-600/80 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(14,165,233,0.2)] whitespace-nowrap"
           >
-            <UserCheck size={13} className="text-sky-400" />
+            <UserCheck size={12} className="text-sky-400" />
             ADMIN PANEL
           </button>
 
           <button
             onClick={() => setShowReportModal(true)}
-            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-emerald-300 border border-emerald-600/60 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all hover:scale-[1.02]"
+            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-emerald-300 border border-emerald-600/60 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold transition-all whitespace-nowrap"
           >
-            <Camera size={13} className="text-emerald-400" />
-            Upload Report
+            <Camera size={12} className="text-emerald-400" />
+            Report
           </button>
 
           <button
             onClick={triggerTestEmergencyAlarm}
-            className="flex items-center gap-1 bg-gradient-to-r from-rose-950 to-pink-950 hover:from-rose-900 hover:to-pink-900 text-rose-200 border border-rose-700/80 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all shadow-[0_0_12px_rgba(244,63,94,0.3)] animate-pulse hover:scale-[1.02]"
+            className="flex items-center gap-1 bg-gradient-to-r from-rose-950 to-pink-950 hover:from-rose-900 hover:to-pink-900 text-rose-200 border border-rose-700/80 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold transition-all shadow-[0_0_12px_rgba(244,63,94,0.3)] animate-pulse whitespace-nowrap"
           >
-            <Volume2 size={13} className="text-rose-400" />
-            SIREN TEST
+            <Volume2 size={12} className="text-rose-400" />
+            SIREN
           </button>
 
           <button
             onClick={triggerEvaluationPipeline}
             disabled={simulating}
-            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-sky-300 border border-sky-700/60 px-2.5 py-1 rounded-lg text-[11px] transition-all hover:scale-[1.02]"
+            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-sky-300 border border-sky-700/60 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] transition-all whitespace-nowrap"
           >
-            <RefreshCw size={12} className={simulating ? "animate-spin text-sky-400" : ""} />
-            Evaluate Risk
+            <RefreshCw size={11} className={simulating ? "animate-spin text-sky-400" : ""} />
+            Evaluate
           </button>
 
           <button
             onClick={() => setShowAdminLog(true)}
-            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700/80 px-2.5 py-1 rounded-lg text-[11px] transition-all hover:scale-[1.02]"
+            className="flex items-center gap-1 bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700/80 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] transition-all whitespace-nowrap"
           >
-            <FileText size={12} />
-            Audit Log
+            <FileText size={11} />
+            Audit
           </button>
 
-          <div className="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg px-2 py-0.5 shadow-inner">
-            <Globe size={12} className="text-slate-400" />
+          <div className="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg px-1.5 py-0.5 shadow-inner shrink-0">
+            <Globe size={11} className="text-slate-400" />
             <select
               value={lang}
               onChange={(e) => setLang(e.target.value as Language)}
-              className="bg-transparent text-slate-200 text-[11px] outline-none cursor-pointer font-medium"
+              className="bg-transparent text-slate-200 text-[10px] sm:text-[11px] outline-none cursor-pointer font-medium"
             >
               <option value="en" className="bg-slate-900">EN</option>
               <option value="as" className="bg-slate-900">অসমীয়া</option>
@@ -410,7 +414,7 @@ export default function App() {
       </header>
 
       {/* Main Content Dashboard */}
-      <main className="flex-1 p-2.5 flex flex-col gap-2.5 min-h-0 overflow-hidden">
+      <main className="flex-1 p-2 sm:p-2.5 flex flex-col gap-2 sm:gap-2.5 min-h-0 overflow-y-auto md:overflow-hidden">
         {/* KPI Top Bar */}
         <KpiBar
           zones={zones}
@@ -423,10 +427,44 @@ export default function App() {
           onOpenActiveAlerts={() => setShowActiveAlertsModal(true)}
         />
 
-        {/* 3-Column Operations Layout */}
-        <div className="flex-1 grid grid-cols-12 gap-2.5 min-h-0 overflow-hidden">
-          {/* Left Column: Zone Selection Sidebar & Road Admin Controls */}
-          <div className="col-span-3 bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-2.5 flex flex-col min-h-0 overflow-hidden shadow-2xl">
+        {/* Mobile View Switcher Tabs (Only visible on mobile screens < md) */}
+        <div className="flex md:hidden items-center bg-slate-900/90 border border-slate-800 p-1 rounded-xl shadow-lg shrink-0">
+          <button
+            onClick={() => setMobileTab('map')}
+            className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition-all text-center flex items-center justify-center gap-1 ${
+              mobileTab === 'map'
+                ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            🗺️ GIS Map
+          </button>
+          <button
+            onClick={() => setMobileTab('zones')}
+            className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition-all text-center flex items-center justify-center gap-1 ${
+              mobileTab === 'zones'
+                ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            📍 Zones ({zones.length})
+          </button>
+          <button
+            onClick={() => setMobileTab('analytics')}
+            className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition-all text-center flex items-center justify-center gap-1 ${
+              mobileTab === 'analytics'
+                ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            📊 Analytics
+          </button>
+        </div>
+
+        {/* Operations Layout (Desktop: 3 Columns Grid; Mobile: Responsive Active View) */}
+        <div className="flex-1 md:grid md:grid-cols-12 gap-2 sm:gap-2.5 min-h-0 overflow-y-auto md:overflow-hidden">
+          {/* Column 1: Zones List & Arterial Roads */}
+          <div className={`${mobileTab === 'zones' ? 'flex' : 'hidden md:flex'} md:col-span-3 bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-2.5 flex-col min-h-[350px] md:min-h-0 overflow-hidden shadow-2xl mb-2 md:mb-0`}>
             <h3 className="font-bold text-[11px] uppercase tracking-wider text-slate-400 mb-1.5 pb-1 border-b border-slate-800/80 flex items-center justify-between shrink-0">
               <span>{t.zonesList} ({zones.length})</span>
               <span className="text-[9px] text-cyan-400 font-mono font-medium">Interactive Radar</span>
@@ -437,7 +475,10 @@ export default function App() {
                 return (
                   <button
                     key={`side-zone-${zone.id}`}
-                    onClick={() => setSelectedZone(zone)}
+                    onClick={() => {
+                      setSelectedZone(zone);
+                      setMobileTab('map');
+                    }}
                     className={`w-full text-left p-2 rounded-lg border transition-all duration-200 ${
                       isSelected
                         ? 'bg-slate-800/90 border-cyan-500/80 border-l-4 border-l-cyan-400 shadow-[0_4px_15px_rgba(6,182,212,0.15)] translate-x-0.5'
@@ -490,21 +531,23 @@ export default function App() {
             </div>
           </div>
 
-          {/* Center Column: GIS Leaflet Map */}
-          <div className="col-span-6 bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-1.5 flex flex-col min-h-0 overflow-hidden shadow-2xl">
+          {/* Column 2: GIS Leaflet Map */}
+          <div className={`${mobileTab === 'map' ? 'flex' : 'hidden md:flex'} md:col-span-6 bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-1.5 flex-col h-[50vh] md:h-full min-h-0 overflow-hidden shadow-2xl mb-2 md:mb-0`}>
             <Map
               zones={zones}
               roads={roads}
               reports={reports}
               selectedZone={selectedZone}
-              onSelectZone={setSelectedZone}
+              onSelectZone={(zone) => {
+                setSelectedZone(zone);
+              }}
             />
           </div>
 
-          {/* Right Column: Dedicated Analytics & 72h Trend Graph (100% Spacious Visibility) */}
-          <div className="col-span-3 flex flex-col gap-2.5 min-h-0 overflow-hidden">
+          {/* Column 3: Dedicated Analytics & 72h Trend Graph */}
+          <div className={`${mobileTab === 'analytics' ? 'flex' : 'hidden md:flex'} md:col-span-3 flex-col gap-2.5 min-h-[350px] md:min-h-0 overflow-hidden`}>
             {/* Selected Zone Risk Analytics Card */}
-            <div className="flex-[1.3] bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-2.5 flex flex-col min-h-[240px] overflow-hidden shadow-2xl">
+            <div className="flex-[1.3] bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 rounded-xl p-2.5 flex flex-col min-h-[220px] overflow-hidden shadow-2xl">
               <h3 className="font-bold text-xs uppercase tracking-wider text-slate-300 border-b border-slate-800/80 pb-1.5 flex items-center justify-between shrink-0">
                 <span>{t.selectedZoneDetails}</span>
                 <span className="text-[9px] text-cyan-400 font-mono font-medium">GIS Radar Analytics</span>
