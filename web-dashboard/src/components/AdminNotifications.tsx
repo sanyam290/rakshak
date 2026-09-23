@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { AlertItem, Zone, FieldReportItem } from '../types';
-import { ShieldCheck, Filter, Smartphone, Send, SendHorizontal, AlertOctagon, CheckCircle2, Camera, MapPin, Trash2 } from 'lucide-react';
+import { ShieldCheck, Filter, Smartphone, Camera, MapPin, Trash2 } from 'lucide-react';
 
 interface AdminNotificationsProps {
   alerts: AlertItem[];
@@ -181,126 +181,7 @@ export const AdminNotifications: React.FC<AdminNotificationsProps> = ({ alerts, 
           </>
         )}
 
-        {/* TAB 2: MANUAL EMERGENCY SMS BROADCAST CONSOLE */}
-        {activeTab === 'broadcast' && (
-          <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-950/80 text-xs">
-            <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
-              <h3 className="font-bold text-sm text-rose-400 mb-1 flex items-center gap-2">
-                <AlertOctagon size={18} />
-                Manual Disaster Admin Emergency Broadcast
-              </h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Use this console to compose and dispatch instant emergency SMS text alerts directly to field officers, citizens, or target mobile phone numbers.
-              </p>
-            </div>
-
-            {broadcastSuccess && (
-              <div className="p-3 bg-emerald-950/60 border border-emerald-800 text-emerald-200 rounded-lg flex items-center gap-2 font-medium">
-                <CheckCircle2 size={16} className="text-emerald-400" />
-                {broadcastSuccess}
-              </div>
-            )}
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Target Monitoring Zone</label>
-                <select
-                  value={targetZoneId}
-                  onChange={(e) => setTargetZoneId(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 font-medium outline-none"
-                >
-                  {zones.map(z => (
-                    <option key={`opt-z-${z.id}`} value={z.id}>{z.name} ({z.district}, {z.state})</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Target Recipient Mobile Number</label>
-                <input
-                  type="text"
-                  value={targetPhone}
-                  onChange={(e) => setTargetPhone(e.target.value)}
-                  placeholder="+919876543210"
-                  className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 font-mono outline-none"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Language Code</label>
-                <select
-                  value={targetLang}
-                  onChange={(e) => setTargetLang(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 font-medium outline-none"
-                >
-                  <option value="en">English (en)</option>
-                  <option value="as">Assamese (as - অসমীয়া)</option>
-                  <option value="hi">Hindi (hi - हिंदी)</option>
-                  <option value="mn">Manipuri (mn)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Severity Level</label>
-                <select
-                  value={targetSeverity}
-                  onChange={(e) => setTargetSeverity(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 font-medium outline-none"
-                >
-                  <option value="severe">SEVERE Hazard (Critical Red)</option>
-                  <option value="high">HIGH Hazard (Warning Orange)</option>
-                  <option value="moderate">MODERATE Caution (Yellow)</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-slate-300 font-semibold">Emergency SMS Message Text</label>
-                <span className="text-[10px] text-slate-500">Quick Templates:</span>
-              </div>
-
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <button
-                  onClick={() => setTemplate("EVACUATION ORDER: Severe slope failure risk detected. Leave low-lying mountain paths immediately.")}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[10px] px-2.5 py-1 rounded"
-                >
-                  Evacuation Order
-                </button>
-                <button
-                  onClick={() => setTemplate("ROAD CLOSURE NOTICE: Highway blocked due to heavy debris collapse. Seek alternative routes.")}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[10px] px-2.5 py-1 rounded"
-                >
-                  Road Closure Notice
-                </button>
-                <button
-                  onClick={() => setTemplate("HEAVY RAINFALL ADVISORY: 120mm rain recorded. High saturation on steep slopes.")}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[10px] px-2.5 py-1 rounded"
-                >
-                  Rainfall Advisory
-                </button>
-              </div>
-
-              <textarea
-                rows={3}
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-lg p-2.5 text-xs outline-none font-sans"
-              />
-            </div>
-
-            <button
-              onClick={handleSendManualBroadcast}
-              disabled={isSending || !customMessage.trim()}
-              className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 text-sm shadow-xl transition"
-            >
-              <SendHorizontal size={18} />
-              {isSending ? "DISPATCHING EMERGENCY SMS ALERT..." : "DISPATCH MANUAL EMERGENCY SMS ALERT NOW"}
-            </button>
-          </div>
-        )}
+        {/* Broadcast functionality is available in the Admin Panel */}
 
         {/* TAB 3: FIELD REPORTS & UPLOADED PHOTOS GALLERY */}
         {activeTab === 'reports' && (

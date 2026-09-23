@@ -1,0 +1,44 @@
+# Render Blueprint – NER-Sentinel Rakshak Backend Services
+# Deploy via: https://dashboard.render.com/blueprints → New Blueprint Instance → Connect Repo
+
+services:
+  # ── Core Backend API (FastAPI + SQLite) ──────────────────────────
+  - type: web
+    name: rakshak-backend
+    runtime: python
+    region: singapore   # closest to NER India
+    plan: free
+    buildCommand: |
+      cd backend && pip install -r requirements.txt
+    startCommand: |
+      cd backend && python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./ner_sentinel.db
+      - key: ML_ENGINE_URL
+        sync: false   # set after ML engine deploys
+      - key: ENVIRONMENT
+        value: production
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_API_KEY_SID
+        sync: false
+      - key: TWILIO_API_SECRET
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+    healthCheckPath: /health
+
+  # ── ML Risk Engine (FastAPI + XGBoost) ───────────────────────────
+  - type: web
+    name: rakshak-ml-engine
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: |
+      cd ml-engine && pip install -r requirements.txt
+    startCommand: |
+      cd ml-engine && python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
